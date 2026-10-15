@@ -5,7 +5,7 @@ import time
 import re
 import json
 
-def ejecutar_bot_encuestas(url_form, funcion_log, total_encuestas=244):
+def ejecutar_bot_encuestas(url_form, funcion_log, total_encuestas):
     url_response = url_form.replace("viewform", "formResponse")
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     preguntas_mapeadas = []
@@ -14,7 +14,7 @@ def ejecutar_bot_encuestas(url_form, funcion_log, total_encuestas=244):
     response = requests.get(url_form, headers=headers)
 
     if response.status_code != 200:
-        funcion_log("❌ Error: No se pudo acceder al formulario.")
+        funcion_log("Error: No se pudo acceder al formulario.")
         return
 
     soup = BeautifulSoup(response.text, "html.parser")
@@ -47,10 +47,10 @@ def ejecutar_bot_encuestas(url_form, funcion_log, total_encuestas=244):
                     })
             funcion_log(f"✔ Se mapearon {len(preguntas_mapeadas)} preguntas.")
         except Exception as e:
-            funcion_log(f"❌ Error procesando los datos internos: {e}")
+            funcion_log(f"Error procesando los datos internos: {e}")
             return
     else:
-        funcion_log("❌ No se pudo extraer el bloque de preguntas.")
+        funcion_log("No se pudo extraer el bloque de preguntas.")
         return
 
     funcion_log(f"Iniciando el envío de {total_encuestas} encuestas...\n")
@@ -87,4 +87,4 @@ def ejecutar_bot_encuestas(url_form, funcion_log, total_encuestas=244):
 
         time.sleep(0.5)
 
-    funcion_log("\n🎉 ¡Proceso finalizado con éxito!")
+    funcion_log("¡Proceso finalizado con éxito!")
